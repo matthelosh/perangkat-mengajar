@@ -42,11 +42,11 @@
   </div>
   <div class="card-body">
     <div class="container-fluid">
-      <table class="table table-striped" style="width:100%" id="table-siswa-rapor">
+      <table class="table table-striped table-lg" style="width:100%" id="table-siswa-rapor">
         <thead>
           <th>No</th>
-          <th>Foto</th>
           <th>NISN</th>
+          <th>Foto</th>
           <th>Nama</th>
           <th>Opsi</th>
         </thead>

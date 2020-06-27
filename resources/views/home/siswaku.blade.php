@@ -6,9 +6,9 @@
             Data Siswa
         </h4>
         <div class="d-flex float-left">
-            <button class="btn btn-outlined btn-dark btn-flat" id="btnTambahSiswa">Tambah</button>
-            <button class="btn btn-outlined btn-dark btn-flat" id="btnResetPassword">Reset Password</button>
-            <button class="btn btn-outlined btn-dark btn-flat" id="btnImpor" data-toggle="modal" data-target="#modalImpor" data-impor="siswa">Impor</button>
+            {{-- <button class="btn btn-outlined btn-dark btn-flat" id="btnTambahSiswa">Tambah</button>
+            <button class="btn btn-outlined btn-dark btn-flat" id="btnResetPassword">Reset Password</button> --}}
+            {{-- <button class="btn btn-outlined btn-dark btn-flat" id="btnImpor" data-toggle="modal" data-target="#modalImpor" data-impor="siswa">Impor</button> --}}
             <button class="btn btn-outlined btn-dark btn-flat" id="btnEksporSiswa">Ekspor</button>
             <button class="btn btn-outlined btn-dark btn-flat" id="btnCetakSiswa">Cetak</button>
         </div>

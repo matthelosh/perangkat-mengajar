@@ -48,6 +48,7 @@ Route::get('/home', 'DashController@home')->middleware('auth');
 Route::group(['prefix' => 'siswa', 'middleware' => 'auth'], function(){
     Route::get('/', 'DashController@siswa');
     Route::post('/', 'SiswaController@index');
+    Route::put('/update', 'SiswaController@update');
 });
 
 Route::group(['prefix' => 'nilai', 'middleware' => 'auth'], function() {

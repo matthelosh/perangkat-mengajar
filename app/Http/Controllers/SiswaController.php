@@ -250,14 +250,16 @@ class SiswaController extends Controller
      * @param  \App\Siswa  $siswa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         try {
+            $id = $request->id_siswa;
             Siswa::findOrFail($id)->update($request->all());
-            return redirect('/admin/siswa')->with(['status' => 'sukses', 'msg' => 'Data Siswa diperbarui.']);
+            // return redirect('/siswa')->with(['status' => 'sukses', 'msg' => 'Data Siswa diperbarui.']);
+            return response()->json(['status' => 'sukses', 'msg' => 'Data Siswa diperbarui.']);
         } catch (\Exception $e)
         {
-            return back()->with(['status' => 'error', 'msg' => $e->getCode().':'.$e->getMessage()]);
+            return response()->json(['status' => 'error', 'msg' => $e->getCode().':'.$e->getMessage()]);
         }
     }
 

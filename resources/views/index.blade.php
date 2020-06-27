@@ -46,6 +46,10 @@
           </div>
         </div>
       </div>
+
+        @if(Auth::user()->role == 'wali')
+          @include('modals.guru')
+        @endif
         {{-- <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script> --}}
         {{-- <script type="text/javascript" src="{{ asset('mdb/js/jquery.js')}}"></script> --}}
         {{-- <script type="text/javascript" src="{{ asset('mdb/js/mdb.js')}}"></script> --}}

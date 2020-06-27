@@ -405,9 +405,38 @@ $(document).ready(function(){
                 // console.log(data)
                 return `
                     <button class="btn btn-sm btn-primary btn-outlined btnDetilSiswa"><i class="mdi mdi-magnify"></i></button>
-                    <button class="btn btn-sm btn-warning btn-outlined btnEditSiswa" data-id="`+data.id+`" data-nama="nama"><i class="mdi mdi-pencil"></i></button> <button class="btn btn-sm btn-danger btn-outlined btnHapusSiswa" data-id="`+data.id+`" data-nama="`+data.nama_siswa+`"><i class="mdi mdi-delete"></i></button>`;
+                    <button class="btn btn-sm btn-warning btn-outlined btnEditSiswa" data-id="`+data.id+`" data-nama="nama"><i class="mdi mdi-pencil"></i></button>`;
             }}
         ]
+    })
+
+    $(document).on('click','.btnEditSiswa', function(e) {
+        e.preventDefault();
+        var data = tsiswaku.row($(this).parents('tr')).data()
+        $('#formSiswa').append(`<input type="hidden" name="id_siswa" value="${data.id}" />`)
+        $('#formSiswa').append(`<input type="hidden" name="_method" value="put" />`)
+        Object.keys(data).forEach((k) => {
+            // console.log(k+'=>'+data[k])
+            $(`#formSiswa .form-control[name="${k}"]`).val(data[k])
+        })
+        $('#modalSiswa').modal()
+    })
+
+    $(document).on('submit', '#formSiswa', function(e) {
+        e.preventDefault()
+        var data = $(this).serialize()
+        $.ajax({
+            headers: headers,
+            url: '/siswa/update',
+            type: 'post',
+            data: data
+        }).done(res => {
+            tsiswaku.ajax.reload()
+            swal('Info', res.msg, 'info')
+            $('#modalSiswa').modal('hide')
+        }).fail(err => {
+            swal('Error', err.response.msg, 'error')
+        })
     })
 
     $('#btnFormNilai').click(function(){
@@ -594,13 +623,12 @@ $(document).ready(function(){
             headers: headers
         },
         columns: [
-           {"data": "DT_RowIndex"},
-           {"data": null, render: (data) => {
-                return `<img src="/images/siswas/${data.nisn}.jpg" onerror="this.onerror=null;this.src='/images/siswas/default.jpg';" class="img img-circle" height="35px"/>`
-              
-           }},
+            {"data": "DT_RowIndex"},
             {"data": "nisn"},
-            {"data": "nama_siswa"},
+            {"data": null, render: (data) => {
+                return `<img src="/images/siswas/${data.nisn}.jpg" onerror="this.onerror=null;this.src='/images/siswas/default.jpg';" class="img img-circle" height="40px"/>`
+            }},
+            {"data": "nama_siswa", "className": "text-left"},
             {"data": null, render: (data) => {
                 // 2019/2020
                 var th = $('#tapel').val()
@@ -657,6 +685,11 @@ $(document).ready(function(){
 
     $('#btn-print-rapor-pas').on('click', function(){
         cetakRapor('rapor_pas', 'Rapor PAS')
+    })
+
+    $('#btn-print-rapor-pts').on('click', function(e) {
+        e.preventDefault();
+        cetakRapor('rapor_pts', 'Rapor PTS')
     })
     
     function cetakRapor(divId, title){

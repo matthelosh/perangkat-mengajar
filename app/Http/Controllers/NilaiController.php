@@ -283,6 +283,8 @@ class NilaiController extends Controller
             ['siswa_id','=', $request->query('nisn')],
             ['semester','=', $semester]
         ])->first();
+
+        $pts = $this->nilaiPTS($request->query('nisn'), $semester, $rombel);
         return view('home.dashboard', [
            'page_title' => 'Cetak Rapor', 
            'siswa' => $siswa, 
@@ -294,9 +296,11 @@ class NilaiController extends Controller
            'saran' => $saran,
            'detil' => $detil,
            'prestasis' => $prestasis,
-           'absensi' => $absensi
+           'absensi' => $absensi,
+           'pts' => $pts
         ]);
     }
+
     /**
      * Show the form for editing the specified resource.
      *

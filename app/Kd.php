@@ -27,4 +27,9 @@ class Kd extends Model
     {
         return $this->hasMany('App\PetaKD', 'kd_id', 'kode_kd');
     }
+
+    public function prosems()
+    {
+        return $this->hasOne('App\Prosem', 'kd_id', 'kode_kd');
+    }
 }

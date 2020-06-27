@@ -14,7 +14,7 @@ class Siswa extends Authenticatable
 
   protected $guard = 'siswa';
 
-    protected $fillable = ['sekolah_id', 'ortu_id', 'rombel_id', 'nis', 'nisn', 'nama_siswa', 'jk','agama', 'tempat_lahir', 'tanggal_lahir', 'alamat', 'desa', 'kec', 'kab', 'prov', 'kode_pos', 'hp', 'email', 'password', 'level', 'role'];
+    protected $fillable = ['sekolah_id', 'ortu_id', 'rombel_id', 'nis', 'nisn', 'nama_siswa', 'jk','agama', 'tempat_lahir', 'tanggal_lahir', 'alamat', 'desa', 'kec', 'kab', 'prov', 'kode_pos', 'hp', 'email', 'password', 'level', 'role', 'tk'];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -46,5 +46,10 @@ class Siswa extends Authenticatable
     public function presensis()
     {
         return $this->hasMany('App\Presensi', 'siswa_id', 'nisn');
+    }
+
+    public function ortus()
+    {
+        return $this->hasOne('App\Ortu', 'siswa_id', 'nisn');
     }
 }

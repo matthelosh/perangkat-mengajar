@@ -22,4 +22,9 @@ class Mapel extends Model
   {
       return $this->hasMany('App\Kd', 'mapel_id', 'kode_mapel');
   }
+
+  public function prosems()
+  {
+    return $this->hasMany('App\Prosem', 'mapel_id', 'kode_mapel');
+  }
 }

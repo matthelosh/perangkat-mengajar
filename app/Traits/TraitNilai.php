@@ -442,4 +442,42 @@ trait TraitNilai
             return "perlu bimbingan untuk ";
         }
     }
+
+    public function nilaiPTS($nisn, $semester, $rombel)
+    {
+        $datas = [];
+        $key_mapels = ($rombel->tingkat > 3) ? array('tingkat', 'LIKE', '%') : array('tingkat', '!=', 'besar');
+        $mapels = 'App\Mapel'::where([$key_mapels])->get();
+        foreach($mapels as $mapel)
+        {
+            $datas[$mapel->kode_mapel]['nama_mapel'] = $mapel->nama_mapel;
+
+            $kds = 'App\Prosem'::where([
+                ['semester','=', 'genap'],
+                ['tingkat','=', $rombel->tingkat],
+                ['mapel_id','=', $mapel->kode_mapel]
+            ])->get();
+            foreach($kds as $kd) 
+            {
+                $datas[$mapel->kode_mapel]['nilais']['pts'][$kd->kd_id] = 'App\Nilai'::where([
+                    ['semester','=', $semester],
+                    ['siswa_id', '=', $nisn],
+                    ['rombel_id', '=', $rombel->kode_rombel],
+                    ['kd_id','=', $kd->kd_id],
+                    ['periode','=', 'pts']
+                ])->select('nilai')->first();
+                $datas[$mapel->kode_mapel]['nilais']['uh'][$kd->kd_id] = 'App\Nilai'::where([
+                    ['semester','=', $semester],
+                    ['siswa_id', '=', $nisn],
+                    ['rombel_id', '=', $rombel->kode_rombel],
+                    ['kd_id','=', $kd->kd_id],
+                    ['periode','=','uh']
+                ])->select('nilai')->first();
+
+            }
+        }
+
+        // dd($datas);
+        return $datas;
+    }
 }

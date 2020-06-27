@@ -5,13 +5,13 @@
     border: 1px solid #999;
     margin: 20px auto;
     border-radius: 3px;
-    background-color: #efefef;
+    background-color: #fff;
     padding: 20px;
     box-sizing: border-box;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-.page_rapor#rapor_pas {
+.page_rapor#rapor_pas, .page_rapor#rapor_pts {
     height: auto;
     min-height: 11.69in;
 }
@@ -60,11 +60,26 @@ table#table-biodata tr dt{
 .page_rapor h2, h4 {
     font-weight: bolder!important;
  }
+ #rapor_pts .kop {
+     border-bottom: 1px solid black;
+ }
+ #rapor_pts .kop::after{
+    content: '';
+    border-bottom: 3px solid black;
+    /* position: relative; */
+    height: 100%;
+    background-color: pink;
+    display: block;
+    transform: translateY(5px);
+ }
+ #rapor_pts .kop h4,h2,p {
+     margin:0!important;
+ }
 
  @media print {
-    @page {
+    /* @page {
         size: 8.27in 11.69in;
-    }
+    } */
 
     html,body{
         background: #fff;
@@ -99,5 +114,9 @@ table#table-biodata tr dt{
     
     .page_rapor#rapor_pas #table34 tr td {
         font-size: 1.2em;
+    }
+
+    .table-ttd-rapor tr td {
+        font-size: 12pt;
     }
  }

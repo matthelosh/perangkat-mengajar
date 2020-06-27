@@ -1,5 +1,5 @@
 
-@if(Auth::user()->level == 'guru' && Session::get(0) == 'isWali')
+@if(Auth::user()->level == 'guru' && Auth::user()->role == 'wali')
 {{--  Modal Siswa --}}
     <div class="modal" id="modalSiswa">
         <div class="modal-dialog modal-lg"  >
@@ -29,9 +29,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-5">
                                     <label for="nama_siswa">Nama</label>
                                     <input type="text" class="form-control" name="nama_siswa" placeholder="Nama Lengkap" required />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="tk">TK Asal</label>
+                                    <input type="text" class="form-control" name="tk" placeholder="Pendidikan Sebelumnya. eg. TK" required />
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="nis">JK</label>

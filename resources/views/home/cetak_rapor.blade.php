@@ -17,13 +17,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#rapor-pts" data-toggle="tab" class="nav-link">
+                <a href="#rapor-pts" data-toggle="tab" class="nav-link active">
                     <i class="mdi mdi-book-open-page-variant"></i>
                     Rapor PTS
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#rapor-pas" data-toggle="tab" class="nav-link active">
+                <a href="#rapor-pas" data-toggle="tab" class="nav-link ">
                     <i class="mdi mdi-book-open-page-variant"></i>
                     Rapor PAS
                 </a>
@@ -37,12 +37,10 @@
             <div class="tab-pane container-fluid" id="biodata">
                 @include('home.rapor_pages.biodata')
             </div>
-            <div class="tab-pane container-fluid" id="rapor-pts">
-                <div class="container">
-                    <h2>Sek Lur.. Sabar ...</h2>
-                </div>
+            <div class="tab-pane active container-fluid" id="rapor-pts">
+                @include('home.rapor_pages.rapor_pts')
             </div>
-            <div class="tab-pane active container-fluid" id="rapor-pas">
+            <div class="tab-pane container-fluid" id="rapor-pas">
                 @include('home.rapor_pages.rapor_pas')
             </div>
         </div>
