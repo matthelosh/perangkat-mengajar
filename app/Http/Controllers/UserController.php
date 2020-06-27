@@ -31,32 +31,11 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-      if(Auth::user()->level == 'superadmin') {
-
-        $gurus = User::with('sekolahs')->get();
-        $admins = \App\Admin::where('level', '!=', 'superadmin')->with('sekolahs')->get();
-        $users = [];
-        foreach($gurus as $guru)
-        {
-          array_push($users, $guru);
-        }
-        foreach($admins as $admin)
-        {
-          array_push($users, $admin);
-        }
-        // $users = (object) $users;
-        $users = $this->paginate($users);
-      } else {
         if($request->query('req')) {
-            $users = User::where([
-                ['sekolah_id', '=', Auth::user()->sekolah_id],
-                ['level', '!=', 'admin'],
-                ['level', '!=', 'superadmin']
-            ])->get();
             switch($request->query('req'))
             {
                 case "dt":
-
+                    $users = User::all();
                     return DataTables::of($users)->addIndexColumn()->make(true);
                 break;
                 case "cetak":
@@ -81,7 +60,6 @@ class UserController extends Controller
                     return response()->json(['status' => 'sukses', 'msg' => 'Select Guru', 'gurus' => $datas]);
                 break;
             }
-        }
 
       }
         $users = User::with('sekolahs')->get();

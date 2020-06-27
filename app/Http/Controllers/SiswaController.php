@@ -20,11 +20,16 @@ class SiswaController extends Controller
      */
     public function index(Request $request)
     {
-        $siswas = Siswa::with('rombels')->get();
+        
         if ($request->query('req')) {
             switch($request->query('req'))
             {
                 case "dt":
+                    if($request->query('rombel')) {
+                        $siswas = Siswa::where('rombel_id', $request->query('rombel'))->with('rombels')->get();
+                    } else {
+                        $siswas = Siswa::with('rombels')->get();
+                    }
                     return DataTables::of($siswas)->addIndexColumn()->toJson();
                 break;
                 case "non-member":
@@ -37,6 +42,26 @@ class SiswaController extends Controller
                     $siswas = Siswa::where('sekolah_id', Auth::user()->sekolah_id)->where('rombel_id', $request->query('rombel_id'))->get();
                     // dd($siswas);
                     return DataTables::of($siswas)->make(true);
+                break;
+                case "select":
+                    if($request->q !='') {
+                        $datas = Siswa::where([
+                            ['nama_siswa','LIKE', '%'.$request->q.'%'],
+                            ['rombel_id', '=', $request->query('rombel')]
+                        ])->get();
+                    } else {
+                        $datas = Siswa::where([
+                            ['rombel_id', '=', $request->query('rombel')]
+                        ])->get();
+                    }
+                    
+                    $siswas = [];
+                    foreach($datas as $siswa)
+                    {
+                        array_push($siswas, ['id' => $siswa->nisn, 'text' => $siswa->nama_siswa]);
+                        
+                    }
+                    return response()->json($siswas);
                 break;
             }
 

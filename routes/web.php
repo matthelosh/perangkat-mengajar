@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\isWali;
 use App\Traits\Tanggal;
+use Illuminate\Support\Facades\DB;
+
 // use Closure;
 
 // use Auth;
@@ -51,6 +53,10 @@ Route::group(['prefix' => 'siswa', 'middleware' => 'auth'], function(){
 Route::group(['prefix' => 'nilai', 'middleware' => 'auth'], function() {
     Route::get('/', 'DashController@nilai');
     Route::post('/', 'NilaiController@index');
+    Route::post('/impor', 'NilaiController@impor');
+    Route::post('/unduh-format', 'NilaiController@downloadFormat');
+    Route::post('/ganti/{id}', 'NilaiController@update');
+    // Route::post('/view', 'NilaiController@view');
 });
 Route::group(['prefix' => 'rombel', 'middleware' => 'auth'], function() {
     Route::get('/', 'DashController@rombel');
@@ -68,6 +74,7 @@ Route::group(['prefix' => 'mapel', 'middleware' => 'auth'], function(){
 Route::group(['prefix' => 'kompetensi', 'middleware' => 'auth'], function(){
     Route::get('/', 'DashController@kompetensi');
     Route::post('/', 'KdController@index');
+    Route::post('/impor', 'KdController@impor');
 });
 
 Route::group(['prefix' => 'pemetaan', 'middleware' => 'auth'], function(){
@@ -78,4 +85,67 @@ Route::group(['prefix' => 'pemetaan', 'middleware' => 'auth'], function(){
 Route::group(['prefix' => 'kaldik', 'middleware' => 'auth'], function(){
     Route::get('/', 'DashController@kaldik');
 });
+
+Route::group(['prefix' => 'rapor', 'middleware' => 'auth'], function() {
+    Route::get('/', 'DashController@rapor');
+    Route::get('/entri-nilai', 'DashController@entriNilai');
+    Route::get('/entri-nilai-ekstra', 'DashController@entriNilaiEkstra');
+    Route::get('/siswa', 'DashController@cetakRapor');
+    Route::get('/cetak', 'NilaiController@cetakRapor');
+    Route::post('/setting', function(Request $request) {
+        try {
+            DB::table('setting-raport')
+                ->updateOrInsert([
+                    'semester' => substr($request->tapel,2,2).substr($request->tapel,7,2).$request->semester,
+                    'tanggal_rapor' => $request->tanggal_rapor
+                ]);
+            return back()->with(['status' => 'sukses', 'msg' => 'Setting Rapor ditambahkan/diperbarui']);
+        } catch (\Exception $e)
+        {
+            return back()->with(['status' => 'error', 'msg' => $e->getCode().':'.$e->getMessage()]);
+        }
+    });
+
+    Route::post('/ganti-semester', function(Request $request) {
+        $semester = substr($request->tapel,2,2).substr($request->tapel,7,2).$request->semester;
+        session()->put('semester', $semester);
+        return back()->with(['status' => 'sukses', 'msg' => 'Setting Rapor ditambahkan/diperbarui']);
+    });
+    Route::post('/saran/input', 'NilaiController@inputSaran');
+   
+});
+
+Route::group(['prefix' => 'pengguna', 'middleware' => 'auth'], function(){
+    Route::get('/', 'DashController@pengguna');
+    Route::post('/', 'UserController@index');
+    Route::post('/impor', 'UserController@import');
+});
+
+Route::group(['prefix' => 'sekolah', 'middleware' => 'auth'], function() {
+    Route::get('/', 'DashController@sekolah');
+    Route::post('/update', 'SekolahController@update');
+});
+
+// Nilai
+Route::group(['prefix' => 'nilai', 'middleware' => 'auth'], function(){
+    Route::post('/entri', 'NilaiController@create');
+    Route::post('/ekstra/view', 'EkskulController@viewNilai');
+    Route::post('/entri/ekstra', 'EkskulController@entri');
+    Route::post('/ganti-nilai-ekstra/{id_nilai}', 'EkskulController@gantiNilai');
+    Route::get('/saran', 'NilaiController@getOneSaran');
+});
+
+// Select2
+
+Route::group(['prefix' => 'select', 'middleware' => 'auth'], function() {
+    Route::post('kd', 'KdController@index');
+    Route::post('ekskul', 'EkskulController@index');
+});
+// Khusus Wali Kelas
+Route::get('/siswaku', 'DashController@siswaku');
+Route::post('/siswaku', 'SiswaController@index');
 Route::get('/logout', 'LoginController@logout')->name('logout');
+
+Route::get('/coba', 'NilaiController@rekap');
+
+// 

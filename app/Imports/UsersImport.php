@@ -24,8 +24,9 @@ class UsersImport implements ToModel, WithHeadingRow
                 'fullname' => $row['fullname'],
                 'level' => $row['level'],
                 'role' => $row['role'],
-                'sekolah_id' => $row['sekolah_id'],
-                'hp' => $row['hp']
+                'sekolah_id' => '0',
+                'hp' => $row['hp'],
+                'password_asli' => $row['password']
         ]);
     }
 }

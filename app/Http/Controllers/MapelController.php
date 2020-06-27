@@ -35,7 +35,18 @@ class MapelController extends Controller
                 if($request->q != '') {
                     $mapels = Mapel::where([['nama_mapel', 'LIKE', '%'. $request->q.'%']])->get();
                 } else {
-                    $mapels = Mapel::all();
+                   
+                    if(Auth::user()->role == 'wali' && (int) $request->session()->get('rombel')->tingkat < 4) {
+                        $mapels = Mapel::where('tingkat', '!=', 'besar')->get();
+                    } elseif(Auth::user()->role == 'wali' && (int) $request->session()->get('rombel')->tingkat > 3) {
+                        $mapels = Mapel::all();
+                    } elseif(Auth::user()->role == 'gpai') {
+                        $mapels = Mapel::where('kode_mapel', 'pabp')->get();
+                    } elseif(Auth::user()->role == 'gor') {
+                        $mapels = Mapel::where('kode_mapel', 'pjok')->get();
+                    } elseif(Auth::user()->role == 'gbig') {
+                        $mapels = Mapel::where('kode_mapel', 'big')->get();
+                    }
                 }
 
 

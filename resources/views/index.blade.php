@@ -13,12 +13,13 @@
         </title>
 
         <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
+        {{-- <link rel="stylesheet" href="{{ asset('mdb/css/mdb.css') }}"> --}}
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/demo/style.css') }}">
         <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
         <link rel="stylesheet" href="{{ asset('select2/dist/css/select2.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('fullcalendar/packages/core/main.css') }}">
-        <link rel="stylesheet" href="{{ asset('fullcalendar/packages/daygrid/main.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/rapor.css') }}">
         <style media="screen">
 
         </style>
@@ -45,21 +46,23 @@
           </div>
         </div>
       </div>
-
-        <script type="text/javascript" src="{{ asset('js/app.js')}}"></script>
+        {{-- <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script> --}}
+        {{-- <script type="text/javascript" src="{{ asset('mdb/js/jquery.js')}}"></script> --}}
+        {{-- <script type="text/javascript" src="{{ asset('mdb/js/mdb.js')}}"></script> --}}
+        
         <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/app.js')}}"></script>
+        
+        
+        
         <script src="{{ asset('js/material.js') }}"></script>
         <script src="{{ asset('js/misc.js') }}"></script>
         <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
         <script src="{{ asset('select2/dist/js/select2.min.js') }}"></script>
 
-
-
         <script src="{{ asset('js/moment.js') }}"></script>
         <script src="{{ asset('js/moment-with-locales.js') }}"></script>
-        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/locale/id.js"></script> --}}
-        <script src="{{ asset('fullcalendar/packages/core/main.min.js') }}"></script>
-        <script src="{{ asset('fullcalendar/packages/daygrid/main.js') }}"></script>
         <script src="{{ asset('js/main.js') }}"></script>
       @include('sweet::alert')
       @if(Session::get('error'))
@@ -83,7 +86,7 @@
         swal({
           text: "{!! Session::get('msg')!!}",
           title: "Error",
-          timer: 10000,
+          timer: 0,
           icon: "error",
           // buttons:
         });
@@ -100,25 +103,11 @@
         });
         </script>
       @endif
-      <script>
-           $('.modal').on("hide.bs.modal", function() {
-                alert("clean up!")
-            })
-      </script>
-      <script>
-          document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('kalender');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: [ 'dayGrid' ],
-        //   height: 400,
-        //   contentHeight: 375,
-        //     aspectRatio: 0.5
-        });
-
-        calendar.render();
-      });
-
-      </script>
+      @if(Session::get('wali') == 1)
+        <script>
+          sessionStorage.setItem('wali', true)
+          sessionStorage.setItem('rombel', '{{ Session::get('rombel')->kode_rombel }}')
+        </script>
+      @endif
     </body>
 </html>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use UxWeb\SweetAlert\SweetAlert;
 
 class LoginController extends Controller
@@ -30,6 +31,7 @@ class LoginController extends Controller
 
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         if(auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password']))) {
+            
             return redirect('home');
         } else {
             return back()->with(['status' => 'error', 'msg' => 'Cek Kembali Usernam / Password']);

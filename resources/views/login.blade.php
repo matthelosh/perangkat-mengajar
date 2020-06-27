@@ -127,6 +127,8 @@
         @endif
         <script>
             $(document).ready(function(){
+              sessionStorage.removeItem('wali')
+              sessionStorage.removeItem('rombel')
                 $('#show-password').click(function(){
                     var eye = $('#show-password i').hasClass('mdi-eye-off')
                     if (eye) {

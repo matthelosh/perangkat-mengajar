@@ -23,23 +23,28 @@ class Siswa extends Authenticatable
         return $this->belongsTo('App\Rombel', 'rombel_id', 'kode_rombel');
     }
 
-    public function medicals()
+    public function details()
     {
-        return $this->hasOne('App\Medical', 'siswa_id', 'id');
+        $this->hasMany('App\DetilSiswa', 'siswa_id', 'nisn');
     }
 
-    public function pendidikans()
+    public function nilais()
     {
-        return $this->hasOne('App\Pendidikan', 'siswa_id', 'id');
+        return $this->hasMany('App\Nilai', 'siswa_id', 'nisn');
     }
 
-    public function hobis()
+    public function ekstras()
     {
-        return $this->hasOne('App\Hobi', 'siswa_id', 'id');
+       return $this->hasMany('App\NilaiEkstra', 'siswa_id', 'nisn');
     }
 
-    public function perkebangans()
+    public function prestasis()
     {
-        return $this->hasOne('App\Perkembangan', 'siswa_id', 'id');
+        return $this->hasMany('App\Prestasi', 'siswa_id', 'nisn');
+    }
+
+    public function presensis()
+    {
+        return $this->hasMany('App\Presensi', 'siswa_id', 'nisn');
     }
 }

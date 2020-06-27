@@ -13,4 +13,9 @@ class Sekolah extends Model
         return $this->hasMany('App\User', 'sekolah_id', 'npsn');
     }
 
+    public function kepsek()
+    {
+        return $this->belongsTo('App\Guru', 'kepsek_id', 'nip');
+    }
+
 }

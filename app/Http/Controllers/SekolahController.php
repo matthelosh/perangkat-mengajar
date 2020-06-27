@@ -84,9 +84,16 @@ class SekolahController extends Controller
      * @param  \App\Sekolah  $sekolah
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sekolah $sekolah)
+    public function update(Request $request)
     {
-        //
+        // dd($request->all());
+        if ($request->id == '0') {
+            Sekolah::create($request->all());
+            return back()->with(['status' => 'sukses', 'msg' => 'Data Sekolah dibuat/diperbarui']);
+        } else {
+            Sekolah::find($request->id)->update($request->all());
+            return back()->with(['status' => 'sukses', 'msg' => 'Data Sekolah dibuat/diperbarui']);
+        }
     }
 
     /**
