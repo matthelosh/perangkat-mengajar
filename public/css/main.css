@@ -1,0 +1,5 @@
+.cardImgSiswa {
+    transform: translateY(0);
+    display: block;
+    transition: all .35s ease;
+}
