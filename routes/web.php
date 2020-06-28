@@ -49,6 +49,10 @@ Route::group(['prefix' => 'siswa', 'middleware' => 'auth'], function(){
     Route::get('/', 'DashController@siswa');
     Route::post('/', 'SiswaController@index');
     Route::put('/update', 'SiswaController@update');
+    Route::post('/keluar-rombel', 'SiswaController@keluarRombel');
+    Route::post('/masuk-rombel', 'SiswaController@masukRombel');
+    Route::post('/pindah-rombel', 'SiswaController@pindahRombel');
+    Route::post('/{id}', 'SiswaController@destroy');
 });
 
 Route::group(['prefix' => 'nilai', 'middleware' => 'auth'], function() {
@@ -62,6 +66,8 @@ Route::group(['prefix' => 'nilai', 'middleware' => 'auth'], function() {
 Route::group(['prefix' => 'rombel', 'middleware' => 'auth'], function() {
     Route::get('/', 'DashController@rombel');
     Route::post('/', 'RombelController@index');
+    Route::post('/one', 'RombelController@create');
+    Route::put('/one', 'RombelController@update');
 });
 Route::group(['prefix' => 'semester', 'middleware' => 'auth'], function() {
     Route::get('/', 'DashController@semester');
@@ -141,6 +147,7 @@ Route::group(['prefix' => 'nilai', 'middleware' => 'auth'], function(){
 Route::group(['prefix' => 'select', 'middleware' => 'auth'], function() {
     Route::post('kd', 'KdController@index');
     Route::post('ekskul', 'EkskulController@index');
+    Route::post('/wali', 'UserController@index');
 });
 // Khusus Wali Kelas
 Route::get('/siswaku', 'DashController@siswaku');

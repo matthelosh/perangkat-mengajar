@@ -34,14 +34,14 @@ class SiswaController extends Controller
                 break;
                 case "non-member":
                     // $siswas = Siswa::where(['sekolah_id' => Auth::user()->sekolah_id, 'rombel_id' => '0'])->get();
-                    $siswas = Siswa::where('rombel_id', '0')->where('sekolah_id', Auth::user()->sekolah_id)->get();
+                    $siswas = Siswa::where('rombel_id', '0')->get();
                     // dd($siswas);
-                    return DataTables::of($siswas)->make(true);
+                    return DataTables::of($siswas)->addIndexColumn()->make(true);
                 break;
                 case "member":
-                    $siswas = Siswa::where('sekolah_id', Auth::user()->sekolah_id)->where('rombel_id', $request->query('rombel_id'))->get();
+                    $siswas = Siswa::where('rombel_id', $request->query('rombel_id'))->get();
                     // dd($siswas);
-                    return DataTables::of($siswas)->make(true);
+                    return DataTables::of($siswas)->addIndexColumn()->make(true);
                 break;
                 case "select":
                     if($request->q !='') {
@@ -66,8 +66,9 @@ class SiswaController extends Controller
             }
 
         } else {
-            $sekolah = 'App\Sekolah'::where('npsn', $npsn)->first();
-            return response()->json(['status' => 'sukses', 'msg' => 'Data Siswa', 'siswas' => $siswas, 'sekolah' => $sekolah]);
+            // $sekolah = 'App\Sekolah'::where('npsn', $npsn)->first();
+            $siswas = 'App\Siswas'::all();
+            return response()->json(['status' => 'sukses', 'msg' => 'Data Siswa', 'siswas' => $siswas]);
         }
     }
 
@@ -78,7 +79,7 @@ class SiswaController extends Controller
         try {
             foreach($ids as $id)
             {
-                Siswa::findOrFail($id)->update(['rombel_id' => '0']);
+                'App\Siswa'::findOrFail($id)->update(['rombel_id' => '0']);
             }
 
             return response()->json(['status' => 'sukses', 'msg' => 'Siswa telah dikeluarkan dari rombel.']);
@@ -130,7 +131,7 @@ class SiswaController extends Controller
         try {
             foreach($ids as $id)
             {
-                Siswa::findOrFail($id)->update(['rombel_id' => $rombel]);
+                'App\Siswa'::findOrFail($id)->update(['rombel_id' => $rombel]);
 
             }
             return response()->json(['status' => 'sukses', 'msg' => 'Siswa dimasukkan ke rombel.']);

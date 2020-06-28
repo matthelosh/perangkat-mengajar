@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="{{ asset('css/demo/style.css') }}">
         <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
         <link rel="stylesheet" href="{{ asset('select2/dist/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('css/rapor.css') }}">
         <style media="screen">
 
@@ -49,6 +50,9 @@
 
         @if(Auth::user()->role == 'wali')
           @include('modals.guru')
+        @endif
+        @if(Auth::user()->role == 'admin')
+          @include('modals.admin')
         @endif
         {{-- <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script> --}}
         {{-- <script type="text/javascript" src="{{ asset('mdb/js/jquery.js')}}"></script> --}}

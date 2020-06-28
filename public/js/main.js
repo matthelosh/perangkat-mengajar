@@ -33,6 +33,37 @@ $(document).ready(function(){
         ]
     });
 
+    $(document).on('click', '.btnHapusSiswa', function(){
+        var id = $(this).data('id');
+        var nama = $(this).data('nama');
+        swal({
+            title: "Yakin menghapus ?",
+            text: "Data "+nama,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((hapus) => {
+            if(hapus) {
+                $.ajax({
+                    type: 'post',
+                    headers: headers,
+                    url: '/siswa/'+id,
+  
+                }).done(res => {
+                    swal(res.msg)
+                    location.href='/admin/siswa'
+                }).catch(err => {
+                    swal(err.response.msg)
+                })
+              //   swal('Data dihapus', {icon: 'success'})
+            } else {
+                swal('Data tidak dihapus')
+            }
+        })
+  
+    })
+  
 
     var trombel = $('#tablerombel').DataTable({
         serverSide: true,
@@ -46,22 +77,284 @@ $(document).ready(function(){
             {"data": "kode_rombel"},
             {"data": "nama_rombel"},
             {"data": null, render: (data) => {
-                return data.siswas.length + ' siswa'
+                return (data.siswas) ? data.siswas.length + ' siswa' : 'Belum ada siswa'
             }},
             {"data": null, render: (data) => {
-                return data.gurus.nama
+
+                return (data.gurus) ? data.gurus.nama: 'Belum ada wali'
             }},
             {"data": null, render: (data) => {
                 // console.log(data)
                 return `
-                    <button class="btn btn-sm btn-primary btn-outlined btnDetilSiswa"><i class="mdi mdi-magnify"></i></button>
-                    <button class="btn btn-sm btn-warning btn-outlined btnEditSiswa" data-id="`+data.id+`" data-nama="nama"><i class="mdi mdi-pencil"></i></button> <button class="btn btn-sm btn-danger btn-outlined btnHapusSiswa" data-id="`+data.id+`" data-nama="`+data.nama_siswa+`"><i class="mdi mdi-delete"></i></button>`;
+                    <button class="btn btn-sm btn-primary btn-outlined btnMnjRombel"><i class="mdi mdi-cogs"></i></button>
+                    <button class="btn btn-sm btn-warning btn-outlined btnEditRombel" data-id="`+data.id+`" data-nama="nama"><i class="mdi mdi-pencil"></i></button> 
+                    <button class="btn btn-sm btn-danger btn-outlined btnHapusRombel" data-id="`+data.id+`" data-nama="`+data.nama_siswa+`"><i class="mdi mdi-delete"></i></button>`;
             }}
         ]
     });
 
+    $(document).on('click', '#btnTambahRombel', function(e) {
+        e.preventDefault()
+        // $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+        $('#modalRombel #formRombel').append(`
+                                        <input type="hidden" name="_method" value="post" />
+                                        <input type="hidden" name="id_rombel" value="" />
+                                    `)
+        $('#modalRombel').modal()
+    })
+    
+    $(document).on('click', '.btnEditRombel', function(e) {
+        e.preventDefault()
+        var data = trombel.row($(this).parents('tr')).data()
+        Object.keys(data).forEach(k => {
+            $(`#modalRombel #formRombel .form-control[name="${k}"]`).val(data[k])
+        })
+        $('#modalRombel #formRombel .selWali').append(`<option value="${(data.gurus)?data.guru_id:'0'}" selected>${(data.gurus) ? data.gurus.nama : 'Pilih Wali Kelas'}</option>`)
+        $('#modalRombel #formRombel').append(`
+                                        <input type="hidden" name="_method" value="put" />
+                                        <input type="hidden" name="id_rombel" value="${data.id}" />
+                                    `)
+        $('#modalRombel').modal()
+    })
 
+    $(document).on('click', '.btnMnjRombel', function(){
+        var data = trombel.row($(this).parents('tr')).data();
+            if(data == undefined) {
+                var selected_row = $(this).parents('tr');
+                if(selected_row.hasClass('child')) {
+                    selected_row = selected_row.prev();
+                    data = trombel.row(selected_row).data();
+                }
+            }
+    
+        $('#modalMnjRombel').modal()
+    
+        $('#modalMnjRombel .modal-title span').text(data.nama_rombel)
+        $('#modalMnjRombel select[name="rombel_tujuan"]').append(`<option value="${data.kode_rombel}" selected>${data.nama_rombel}</option>`).trigger('change')
+    
+        // Tampilkan Table Anggota ROmbel
+        // var trAnggota = ''
+        // data.siswas.forEach((siswa,index) => {
+        //     trAnggota += `<tr>
+        //         <td><input type="checkbox" name="select" class="select" /></td>
+        //         <td>${siswa.id}</td>
+        //         <td>${siswa.nis}</td>
+        //         <td>${siswa.nama_siswa}</td>
+        //     </tr>`
+        // })
+        var tableAnggota = $('#modalMnjRombel #table-anggota').DataTable({
+            serverSide: true,
+            select: 'multi',
+            ajax: {
+                url: '/siswa?req=member&rombel_id='+data.kode_rombel,
+                type: 'post',
+                headers: headers
+            },
+    
+            columns:[
+                {data: 'DT_RowIndex'},
+                {data: 'nisn'},
+                {data: 'nama_siswa'},
+            ]
+    
+        })
+    
+        // Pilih semua Anggota
+        $(document).on('change', '.select_all', function(){
+            if ($(this).prop('checked') == true) {
+                $('#modalMnjRombel #table-anggota tbody tr').addClass('selected')
+            } else {
+                $('#modalMnjRombel #table-anggota tbody tr').removeClass('selected')
+            }
+    
+        })
+    
+    
+        var tnonmember = $('#table-non-anggota').DataTable({
+            serverSide:true,
+            select: 'multi',
+            ajax: {
+                url: '/siswa?req=non-member',
+                type: 'post',
+                headers: headers
+            },
+            columns:[
+                {data: 'DT_RowIndex'},
+                {data: 'nisn'},
+                {data: 'nama_siswa'}
+            ]
+        })
+    
+        // Keluarkan Anggota
+        $(document).on('click', '#btnKeluarkanAnggota', function(){
+            var members = tableAnggota.rows({selected: true}).data();
+            // console.log(members)
+            var ids = []
+            var namas = ''
+            members.each(item => {
+                ids.push(item.id)
+                namas += item.nama_siswa+', '
+            })
+            // console.log(ids)
+            swal({
+                title: 'Yakin mengeluarkan data siswa?',
+                html: true,
+                text: namas,
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true
+            }).then(keluarkan => {
+                if ( keluarkan ) {
+                    $.ajax({
+                        url: '/siswa/keluar-rombel',
+                        type: 'post',
+                        data: {'ids': ids},
+                        headers: headers
+                    }).then(res => {
+                        // console.log(res)
+                        swal({
+                            text: res.msg,
+                            icon: 'info'
+                        })
+                        tableAnggota.ajax.reload()
+                        tnonmember.draw()
+                    }).catch(err => {
+                        console.log(err)
+                    })
+                } else {
+                    swal('Siswa tidak dikeluarkan.')
+                }
+            })
+    
+    
+        })
+    
+        // Masukkan Anggota
+        $(document).on('click', '#btnMasukkanSiswa', function(){
+            var nonmembers = tnonmember.rows({selected: true}).data()
+    
+            var ids = []
+            var namas = ''
+            var rombel7 = $('#rombel7').val()
+            var nama_rombel7 = $('#rombel7 option').text()
+            nonmembers.each(nm => {
+                ids.push(nm.id)
+                namas += nm.nama_siswa
+            })
+    
+            swal({
+                title: 'Yakin memasukkan siswa ke rombel ' + nama_rombel7,
+                html: true,
+                text: namas,
+                buttons: true,
+                dangerMode: true
+            }).then(masukkan => {
+                if ( masukkan ) {
+                    $.ajax({
+                        url: '/siswa/masuk-rombel',
+                        type: 'post',
+                        data: {rombel: rombel7, ids: ids},
+                        headers: headers
+                    }).done(res => {
+                        tableAnggota.draw()
+                        tnonmember.ajax.reload()
+                    }).catch(err => {
+                        swal(err.response.text)
+                    })
+                } else {
+                    swal('Siswa tidak dimasukkan ke rombel')
+                }
+            })
+        })
+    
+        $(document).on('click', '#btnPindahAnggota', function(){
+            var members = tableAnggota.rows({selected: true}).data();
+            var ids = []
+            var namas = ''
+            var rombel7 = $('#rombel7').val()
+            var nama_rombel7 = $('#rombel7 option').text()
+            var rombelasal = ''
+            members.each(m => {
+                ids.push(m.id)
+                namas += m.nama_siswa
+                rombelasal = m.rombel_id
+            })
+            if(rombelasal == rombel7) {
+                swal({icon: 'error', title: 'Error', text: 'Rombel Tujuan tidak boleh sama dengan rombel tujuan.'})
+                return false
+            }
+            swal({
+                title: 'Yakin memindahkan siswa ke rombel ' + nama_rombel7,
+                html: true,
+                text: namas,
+                buttons: true,
+                dangerMode: true
+            }).then(masukkan => {
+                if ( masukkan ) {
+                    $.ajax({
+                        url: '/siswa/pindah-rombel',
+                        type: 'post',
+                        data: {rombel7: rombel7, ids: ids, rombelasal: rombelasal},
+                        headers: headers
+                    }).done(res => {
+                        tableAnggota.draw()
+                        tnonmember.ajax.reload()
+                    }).catch(err => {
+                        swal(err.response.text)
+                    })
+                } else {
+                    swal('Siswa tidak dipindah-rombel  kan')
+                }
+            })
+        })
+    
+    
+        // Destroy Table
+        $(document).on('hidden.bs.modal', '#modalMnjRombel', function(){
+            tableAnggota.destroy()
+            tnonmember.destroy()
+    
+        })
+    })
+
+    $(document).on('submit', '#formRombel', function(e) {
+        e.preventDefault()
+        var data = $(this).serialize()
+        var method = $('#formRombel').find('input[name="_method"').val()
+        // alert(method)
+        $.ajax({
+            headers: headers,
+            url: '/rombel/one',
+            type: method,
+            data: data
+        }).done(res => {
+            trombel.ajax.reload()
+            swal('Info', res.msg, 'info')
+            $('#modalRombel').modal('hide')
+        }).fail(err => {
+            swal('Error', err.response.msg, 'error')
+        })
+    })
     // Autoselect
+        // SelGuru
+        $('.selWali').select2({
+            ajax: {
+                headers: headers,
+                url: '/select/wali?req=select&role=wali',
+                type: 'post',
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function(response) {
+                        return {
+                            results: response.gurus
+                        };
+                    },
+                    cache: true,
+
+            },
+        })
+
+        
         // Rombel
         $('.selRombel').select2({
             ajax: {
@@ -168,6 +461,8 @@ $(document).ready(function(){
                 }
             })
         })
+
+
         // $('.selMapel').change(function(){
         //     var mapel = $(this).val()
         //     $.ajax({
@@ -419,9 +714,36 @@ $(document).ready(function(){
             // console.log(k+'=>'+data[k])
             $(`#formSiswa .form-control[name="${k}"]`).val(data[k])
         })
+        
+        $('#modalSiswa .modal-header .modal-title .nama_siswa').text(data.nama_siswa)
+        // $('#modalSiswa .modal-header button.btnImgSiswa').html(`<img src="/images/siswas/${data.nisn}.jpg" onerror="this.onerror=null;this.src='/images/siswas/default.jpg';" height="26px">`)
         $('#modalSiswa').modal()
     })
 
+    $(document).on('click', '.btnImgSiswa', function(e) {
+        e.preventDefault()
+        var nisn = $(`#formSiswa .form-control[name="nisn"]`).val()
+        $('#modalSiswa .modal-body .cardImgSiswa').slideDown()
+        $('#modalSiswa .modal-body .cardImgSiswa .card-img-top').prop({
+            'src' : `/images/siswas/${nisn}.jpg`
+        }).on('error', function(){
+            $(this).prop('src', '/images/siswas/default.jpg')
+            $('#modalSiswa .modal-body .cardImgSiswa .card-img-overlay .card-title').text('Belum ada Foto Siswa')
+        })
+
+        $(document).on('change', 'input[name="fileFoto"]', function(e){
+            var output = $('#modalSiswa .modal-body .cardImgSiswa .card-img-top')
+            output.prop('src', URL.createObjectURL(e.target.files[0]))
+            $('#modalSiswa .modal-body .cardImgSiswa .card-img-overlay .card-title').text(e.target.files[0].size)
+            //     URL.revokeObjectURL(output.src)
+            // }
+        })
+    })
+
+    $(document).on('click', '.btnBatalUploadImgSiswa', function(e) {
+        e.preventDefault()
+        $(this).parents('.cardImgSiswa').hide()
+    })
     $(document).on('submit', '#formSiswa', function(e) {
         e.preventDefault()
         var data = $(this).serialize()

@@ -24,44 +24,45 @@
         </div>
         @if(Auth::user())
 
+          @if(Auth::user()->role != 'admin')
+            <div class="mdc-list-item mdc-drawer-item">
+              {{-- <a class="mdc-drawer-link" href="{{ route('dashadmin_users') }}"> --}}
+              <a class="mdc-drawer-link" href="/nilai">
+                <i class="mdi mdi-book mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
+                Buku Nilai
+              </a>
+            </div>
           
-          <div class="mdc-list-item mdc-drawer-item">
-            {{-- <a class="mdc-drawer-link" href="{{ route('dashadmin_users') }}"> --}}
-            <a class="mdc-drawer-link" href="/nilai">
-              <i class="mdi mdi-book mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
-              Buku Nilai
-            </a>
-          </div>
-         
-          <div class="mdc-list-item mdc-drawer-item">
-                <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="sub-rapor">
-                  <i class="mdi mdi-file-document mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
-                  Rapor
-                  <i class="mdc-drawer-arrow material-icons">chevron_right</i>
-                </a>
-                <div class="mdc-expansion-panel" id="sub-rapor">
-                    <nav class="mdc-list mdc-drawer-submenu">
-                        <div class="mdc-list-item mdc-drawer-item">
-                            <a class="mdc-drawer-link" href="/rapor/entri-nilai">
-                                <i class="mdi mdi-file-document-edit mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
-                                Entri Nilai Akademik
-                            </a>
-                        </div>
-                        <div class="mdc-list-item mdc-drawer-item">
-                            <a class="mdc-drawer-link" href="/rapor/entri-nilai-ekstra">
-                                <i class="mdi mdi-file-document-edit mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
-                                Entri Nilai Ektra
-                            </a>
-                        </div>
-                        <div class="mdc-list-item mdc-drawer-item">
-                            <a class="mdc-drawer-link" href="/rapor/siswa">
-                                <i class="mdi mdi-printer mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
-                                Cetak
-                            </a>
-                        </div>
-                    </nav>
-                </div>
-          </div>
+            <div class="mdc-list-item mdc-drawer-item">
+                  <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="sub-rapor">
+                    <i class="mdi mdi-file-document mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
+                    Rapor
+                    <i class="mdc-drawer-arrow material-icons">chevron_right</i>
+                  </a>
+                  <div class="mdc-expansion-panel" id="sub-rapor">
+                      <nav class="mdc-list mdc-drawer-submenu">
+                          <div class="mdc-list-item mdc-drawer-item">
+                              <a class="mdc-drawer-link" href="/rapor/entri-nilai">
+                                  <i class="mdi mdi-file-document-edit mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
+                                  Entri Nilai Akademik
+                              </a>
+                          </div>
+                          <div class="mdc-list-item mdc-drawer-item">
+                              <a class="mdc-drawer-link" href="/rapor/entri-nilai-ekstra">
+                                  <i class="mdi mdi-file-document-edit mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
+                                  Entri Nilai Ektra
+                              </a>
+                          </div>
+                          <div class="mdc-list-item mdc-drawer-item">
+                              <a class="mdc-drawer-link" href="/rapor/siswa">
+                                  <i class="mdi mdi-printer mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
+                                  Cetak
+                              </a>
+                          </div>
+                      </nav>
+                  </div>
+            </div>
+          @endif
             <div class="mdc-list-item mdc-drawer-item">
                 <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="sub-perangkat">
                   <i class="mdi mdi-database mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>

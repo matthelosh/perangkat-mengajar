@@ -49,7 +49,10 @@ class UserController extends Controller
                             ['fullname', 'LIKE', '%'.$request->q.'%']
                         ])->get();
                     } else {
-                        $gurus = User::where(['sekolah_id' => Auth::user()->sekolah_id, 'level' => 'guru'])->get();
+                      if($request->query('role') == 'wali') {
+                        $gurus =  $gurus = User::where(['role' => 'wali'])->get();
+                      }
+                        $gurus = User::where(['level' => 'guru'])->get();
                     }
                     $data = [];
                     foreach($gurus as $guru)

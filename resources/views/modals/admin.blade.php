@@ -542,27 +542,17 @@
                         <div class="row">
                             <div class="form-group col-md-8">
                                 <label for="guru_id">Wali Kelas</label>
-                                <select name="guru_id" class="form-control selGuru" style="width:100%;height: 40px;">
+                                <select name="guru_id" class="form-control selWali" style="width:100%;">
                                     <option value="0">--Wali Kelas--</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="tingkat">Tingkat</label>
-                                <select name="tingkat" class="form-control selTingkat" style="width:100%;height: 40px;">
+                                <select name="tingkat" class="form-control selTingkat" style="width:100%;">
                                     <option value="0">--Tingkat--</option>
-                                    @if(Auth::user()->sekolahs->jenjang == 'sd')
-                                        @for($i=1;$i<=6;$i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
-                                    @elesif(Auth::user()->sekolahs->jenjang == 'smp')
-                                        @for($i=7;$i<=9;$i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
-                                    @elesif(Auth::user()->sekolahs->jenjang == 'smk' || Auth::user()->sekolahs->jenjang == 'smu')
-                                        @for($i=10;$i<=12;$i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
-                                    @endif
+                                    @for ($i = 1; $i <= 6; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
                                 </select>
                             </div>
                         </div>
@@ -576,7 +566,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 {{-- Modal Manajemen Rombel --}}
     <div class="modal" id="modalMnjRombel">
         <div class="modal-dialog modal-xl" style="max-width:95%!important;max-height: 95vh; overflow: hidden;" >

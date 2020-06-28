@@ -5,10 +5,30 @@
         <div class="modal-dialog modal-lg"  >
             <div class="modal-content" >
                 <div class="modal-header">
-                    <h4 class="modal-title">Buat Data Siswa</h4>
+                    <h4 class="modal-title">Edit Data <span class="nama_siswa"></span></h4>
+                    <button class="btn btn-primary ml-5 float-right btnImgSiswa" title="Unggah Foto Siswa"><i class="mdi mdi-file-image mdi-18px"></i></button>
+                    <button class="btn btn-danger float-right btnOrtu" title="Data Orang Tua"><i class="mdi mdi-human mdi-18px"></i></button>
                     <button class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
+                    <div class="card cardImgSiswa" style="display:none">
+                        <img src="" alt="Foto Siswa" class="card-img-top" onerror="this.onerror=null;this.src='/images/siswas/default.jpg';" />
+                        <div class="card-img-overlay" style="bottom:150px!important;">
+                            <h4 class="card-title"></h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="" class="form formImgSiswa" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="fileFoto">Ambil File Foto</label>
+                                    <input type="file" name="fileFoto" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-danger btnBatalUploadImgSiswa">Batal</button>
+                                    <button class="btn btn-success btnUploadImgSiswa">Unggah Foto</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <form action="" class="form" id="formSiswa" method="POST">
                         @csrf()
                         <div class="container">
