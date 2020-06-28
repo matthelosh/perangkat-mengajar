@@ -159,15 +159,21 @@ class SiswaController extends Controller
 
     public function addFoto(Request $request)
     {
-        $file = $request->file('file');
-        $siswa = Siswa::where('id', $request->id)->first();
+        $file = $request->file('foto');
+        $siswa = Siswa::where('nisn', $request->nisn)->first();
+        // dd($file);
         // dd($siswa->id);
-        if(!$siswa->nis) {
-            return response()->json(['status' => 'error', 'msg' => 'Siswa belum memiliki NIS'], 412);
+        // if(!$siswa->nis) {
+        //     return response()->json(['status' => 'error', 'msg' => 'Siswa belum memiliki NIS'], 412);
+        // }
+        try {
+            $filename = $request->nisn.'.jpg';
+            $file->move('images/siswas', $filename);
+            return response()->json(['status' => 'sukses', 'msg' => 'Foto Siswa Disimpan', 'url' => '/images/siswas/'.$filename]);
+        } catch (\Exception $e)
+        {
+            return response()->json(['status' => 'error', 'msg' => $e->getCode().':'.$e->getMessage()]);
         }
-        $filename = Auth::user()->sekolah_id.'_'.$siswa->nis.'.jpg';
-        $file->move('images/siswas', $filename);
-        return response()->json(['status' => 'sukses', 'msg' => 'Foto Siswa Disimpan', 'url' => '/images/siswas/'.$filename]);
     }
 
     // public function print(Request $request)

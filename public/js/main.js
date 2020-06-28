@@ -738,11 +738,47 @@ $(document).ready(function(){
             //     URL.revokeObjectURL(output.src)
             // }
         })
+
+        $(document).on('click', '.btnUploadImgSiswa', function(e) {
+            e.preventDefault();
+            var foto = $('.formImgSiswa input[name="fileFoto"')[0].files[0]
+            var fd = new FormData()
+            fd.append('nisn', nisn)
+            fd.append('foto', foto)
+            $.ajax({
+                url: '/siswa/foto',
+                type: 'post',
+                headers:headers,
+                data: fd,
+                contentType: false,
+                processData: false,
+                beforeSend: () => {
+                    $('.progress').fadeIn().addClass('d-flex')
+                }
+            }).done(res => {
+                // console.log(res)
+                swal('Info', res.msg, 'info')
+                $('#modalSiswa .modal-body .cardImgSiswa .card-img-top').prop('src', res.url)
+                $('.btnBatalUploadImgSiswa').text('Tutup')
+                $('.formImgSiswa').trigger('reset')
+                setTimeout(()=> {
+                    $('.btnBatalUploadImgSiswa').trigger('click')
+                }, 1000)
+
+            }).catch((err, status, res, msg) => {
+                swal({icon: 'error', title: err.responseJSON.msg})
+                // console.log(err.responseJSON, status, res, msg)
+            }).always(function(){
+                $('.progress').fadeOut().removeClass('d-flex')
+                
+            })
+        })
     })
 
     $(document).on('click', '.btnBatalUploadImgSiswa', function(e) {
         e.preventDefault()
-        $(this).parents('.cardImgSiswa').hide()
+        $(this).parents('.cardImgSiswa').slideUp()
+        $('#modalSiswa .modal-body .cardImgSiswa .card-img-top').prop('src', '/images/siswas/default.jpg')
     })
     $(document).on('submit', '#formSiswa', function(e) {
         e.preventDefault()

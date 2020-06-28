@@ -15,6 +15,12 @@
                         <img src="" alt="Foto Siswa" class="card-img-top" onerror="this.onerror=null;this.src='/images/siswas/default.jpg';" />
                         <div class="card-img-overlay" style="bottom:150px!important;">
                             <h4 class="card-title"></h4>
+                            <div class="progress justify-content-center align-items-center" style="display:none;background: rgba(200,200,200,0.4);position:absolute;top:0;right:0;bottom:0;left:0;height: 100%; ">
+                                <div class="text-center">
+                                    <i class="mdi mdi-spin mdi-progress-clock mdi-48px"></i><br>
+                                    <h3 class="text-cneter">Tunggu sebentar ..</h3>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <form action="" class="form formImgSiswa" enctype="multipart/form-data">

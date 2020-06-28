@@ -52,7 +52,9 @@ Route::group(['prefix' => 'siswa', 'middleware' => 'auth'], function(){
     Route::post('/keluar-rombel', 'SiswaController@keluarRombel');
     Route::post('/masuk-rombel', 'SiswaController@masukRombel');
     Route::post('/pindah-rombel', 'SiswaController@pindahRombel');
+    Route::post('/foto', 'SiswaController@addFoto');
     Route::post('/{id}', 'SiswaController@destroy');
+    
 });
 
 Route::group(['prefix' => 'nilai', 'middleware' => 'auth'], function() {
