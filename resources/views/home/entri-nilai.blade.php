@@ -3,9 +3,9 @@
   <div class="card-header">
        <h4 class="card-title">Nilai Rapor</h4>
           <div class="row">
-            <div class="form-group col-sm-1">
+            <div class="form-group col-sm-2">
               <label for="tapel">Tapel:</label>
-              <select name="tapel" id="tapel" class="form-control">
+              <select name="tapel" id="tapel" class="form-control" style="font-size:small;">
                 @php
                   $Y = date('Y');
                   $m = date('m');
@@ -24,7 +24,7 @@
             </div>
             <div class="col-sm-1 form-group">
               <label for="semester">Semester</label>
-              <select name="semester" id="semester" class="form-control">
+              <select name="semester" id="semester" class="form-control" style="font-size:small;">
                 @php
                   $m = date('m');
                   if($m > 6 ) {
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group col-sm-1">
               <label for="periode">Periode</label>
-              <select name="periode" id="periode" class="form-control">
+              <select name="periode" id="periode" class="form-control" style="font-size:small;">
                 <option value="0">Periode</option>
                 <option value="uh">Harian</option>
                 <option value="pts">PTS</option>
@@ -48,16 +48,16 @@
               </select>
             </div>
             
-            <div class="form-group col-sm-1">
+            <div class="form-group col-sm-2">
               <label for="mapel">Mapel</label>
-              <select name="mapel" id="mapel" class="form-control selMapel">
+              <select name="mapel" id="mapel" class="form-control selMapel" style="font-size:small;">
                 <option value="0">Mapel</option>
               </select>
             </div>
 
             <div class="foem-group col-sm-1">
               <label for="kompetensi">Kompetensi</label>
-              <select name="kompetensi" id="kompetensi" class="form-control selKompetensi">
+              <select name="kompetensi" id="kompetensi" class="form-control selKompetensi" style="font-size:small;">
                 <option value="0">Kompetensi</option>
                 <option value="1">KI-1</option>
                 <option value="2">KI-2</option>
@@ -66,21 +66,19 @@
               </select>
             </div>
 
-            <div class="foem-group col-sm-5">
+            <div class="foem-group col-sm-3">
               <label for="kd">Kompetensi Dasar</label>
-              <select name="kd" id="kd" class="form-control selKd">
+              <select name="kd" id="kd" class="form-control selKd" style="font-size:small;">
                 <option value="0">KD</option>
               </select>
             </div>
             <div class="form-group col-sm-2">
-              <label for="" style="color: transparent;">Tampilkan Tombol untuk semua orang agar </label>
+              <label for="" style="color: transparent;">Tampilkan Tombol </label>
               <div class="btn-group">
-                <button class="btn btn-primary" id="btnFormNilai">
-                  <i class="mdi mdi-magnify"></i>
+                <button class="btn btn-primary btn-sm" id="btnFormNilai">
                   Tampilkan
                 </button>
-                <button class="btn btn-success" id="btnFormatNilai">
-                  <i class="mdi mdi-download"></i>
+                <button class="btn btn-success btn-sm" id="btnFormatNilai">
                   Unduh Format
                 </button>
               </div>

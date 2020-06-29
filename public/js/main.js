@@ -773,8 +773,14 @@ $(document).ready(function(){
                 
             })
         })
+
+        
     })
 
+    $(document).on('click', '#modalSiswa .modal-body button.btnOrtu', function(e) {
+        e.preventDefault();
+        $('#modalOrtu').modal()
+    })
     $(document).on('click', '.btnBatalUploadImgSiswa', function(e) {
         e.preventDefault()
         $(this).parents('.cardImgSiswa').slideUp()
