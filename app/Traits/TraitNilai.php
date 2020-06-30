@@ -271,8 +271,9 @@ trait TraitNilai
 
             
             // Ambil KD Max dan Min
+            $d = [];
             if(isset($maxkd3)) {
-                // $d = [];
+                
                 foreach($maxkd3 as $m)
                 {
                     $kd = 'App\Kd'::where([
@@ -282,9 +283,9 @@ trait TraitNilai
                     ])->first();
                     // dd($kd);
                     // array_push($d, $kd);
-                    $datas[$mapel->kode_mapel]['k3']['max'][$m] = $this->kata_op($max3) ;
+                    $datas[$mapel->kode_mapel]['k3']['max'][$m] = $this->kata_op($max3). ($kd ) ? $kd['teks_kd'] : 'Tolong cek tabel KD'.$m;//.$kd->kode_kd;
                 }
-                // dd($d);.$kd->teks_kd
+                //$kd->teks_kd
             } else {
                 $datas[$mapel->kode_mapel]['k3']['max'] = null;
             }
@@ -375,7 +376,7 @@ trait TraitNilai
         }
 
         
-
+        // dd($d);
         // dd($datas);
         return $datas;
     }
