@@ -1,3 +1,3 @@
 <div class="container">
-    <h1>Selamat Datang {{ AUth::user()->fullname }}</h1>
+    <h1>Selamat Datang {{ Auth::user()->fullname }}</h1>
 </div>
