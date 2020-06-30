@@ -42,7 +42,48 @@
                             </form>
                         </div>
                     </div>
-                    
+                    <div class="card cardOrtu" id="data-ortu">
+                            <div class="card-header">
+                                <h4>Data Ortu</h4>
+                            </div>
+                            <div class="card-body" style="max-height: 80vh; overflow-y: auto;">
+                                <form action="" class="form form-ortu">
+                                    <div class="row">
+                                        <div class="form-group col-sm-4">
+                                            <label for="ayah">Nama Ayah</label>
+                                            <input type="text" class="form-control" name="ayah" placeholder="Nama Ayah">
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="job_ayah">Pekerjaan Ayah</label>
+                                            <input type="text" class="form-control" name="job_ayah" placeholder="Pekerjaan Ayah">
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="ibu">Nama Ibu</label>
+                                            <input type="text" class="form-control" name="ibu" placeholder="Nama Ibu">
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="job_ibu">Pekerjaan Ibu</label>
+                                            <input type="text" class="form-control" name="job_ibu" placeholder="Pekerjaan Ibu">
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="wali">Nama Wali</label>
+                                            <input type="text" class="form-control" name="wali" placeholder="Nama Wali">
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="job_wali">Pekerjaan Wali</label>
+                                            <input type="text" class="form-control" name="pend_wali" placeholder="Pendidikan Wali">
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="hp_ortu">No. HP Orang Tua</label>
+                                            <input type="text" class="form-control" name="job_wali" placeholder="Pekerjaan Wali">
+                                        </div>
+                                        <div class="form-group text-center col-sm-12">
+                                            <button class="btn btn-primary btn-sm" type="submit">Simpan</button>
+                                        </div>
+                                    </div>  
+                                </form>
+                            </div>
+                        </div>
                     <form action="" class="form" id="formSiswa" method="POST">
                         @csrf()
                         <div class="container">
@@ -169,7 +210,7 @@
                                 <h4>Data Ortu</h4>
                             </div>
                             <div class="card-body" style="max-height: 80vh; overflow-y: auto;">
-                                <form action="" class="form">
+                                <form action="" class="form form-ortu">
                                     <div class="form-group">
                                         <label for="ayah">Nama Ayah</label>
                                         <input type="text" class="form-control" name="ayah" placeholder="Nama Ayah">
