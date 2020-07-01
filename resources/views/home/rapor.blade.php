@@ -3,7 +3,7 @@
   <div class="card-header">
     <h4 class="card-title">Data Siswa Kelas {{ Session::get('rombel')->nama_rombel }} {{ Session::get('semester') }}</h4>
     <div class="row">
-      <div class="form-group col-sm-1">
+      <div class="form-group col-sm-2">
         <label for="tapel">Tapel:</label>
         <select name="tapel" id="tapel-rapor" class="form-control">
           @php
@@ -25,7 +25,7 @@
           {{-- <option value="0">Semester</option> --}}
         </select>
       </div>
-      <div class="col-sm-1 form-group">
+      <div class="col-sm-2 form-group">
         <label for="semester">Semester</label>
         <select name="semester" id="semester-rapor" class="form-control">
           @php
