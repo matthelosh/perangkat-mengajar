@@ -261,44 +261,50 @@ class NilaiController extends Controller
 
     public function cetakRapor(Request $request)
     {
-        $siswa = 'App\Siswa'::where('nisn', $request->query('nisn'))->first();
-        $semester = $request->query('semester');
-        $rombel = $request->session()->get('rombel');
-        $sekolah = 'App\Sekolah'::with('kepsek')->first();
-        $tanggal_rapor = DB::table('setting-raport')->select('tanggal_rapor')->where('semester', $semester)->first();
-        $tgl = explode('-',$tanggal_rapor->tanggal_rapor);
-        $nilais = $this->nilaiRapor($request->query('nisn'), $semester, $rombel);
-        $sikaps = $this->nilaiSikap($request->query('nisn'), $semester, $rombel);
-        $ekstras = $this->nilaiEkstra($request->query('nisn'), $semester, $rombel); 
-        $saran = DB::table('sarans')->where([['siswa_id','=', $request->query('nisn')], ['semester' ,'=', $request->query('semester')]])->first();
-        $detil = 'App\DetilSiswa'::where([
-            ['siswa_id','=', $request->query('nisn')],
-            ['semester','=', $semester]
-        ])->first();
-        $prestasis = 'App\Prestasi'::where([
-            ['siswa_id','=', $request->query('nisn')],
-            ['semester','=', $semester]
-        ])->get();
-        $absensi = 'App\Presensi'::where([
-            ['siswa_id','=', $request->query('nisn')],
-            ['semester','=', $semester]
-        ])->first();
+        try {    
+            $siswa = 'App\Siswa'::where('nisn', $request->query('nisn'))->first();
+            $semester = $request->query('semester');
+            // dd($semester);
+            $rombel = $request->session()->get('rombel');
+            $sekolah = 'App\Sekolah'::with('kepsek')->first();
+            $tanggal_rapor = DB::table('setting-raport')->select('tanggal_rapor')->where('semester', $semester)->first();
+            // $tgl = explode('-',$tanggal_rapor->tanggal_rapor);
+            $nilais = $this->nilaiRapor($request->query('nisn'), $semester, $rombel);
+            $sikaps = $this->nilaiSikap($request->query('nisn'), $semester, $rombel);
+            $ekstras = $this->nilaiEkstra($request->query('nisn'), $semester, $rombel); 
+            $saran = DB::table('sarans')->where([['siswa_id','=', $request->query('nisn')], ['semester' ,'=', $request->query('semester')]])->first();
+            $detil = 'App\DetilSiswa'::where([
+                ['siswa_id','=', $request->query('nisn')],
+                ['semester','=', $semester]
+            ])->first();
+            $prestasis = 'App\Prestasi'::where([
+                ['siswa_id','=', $request->query('nisn')],
+                ['semester','=', $semester]
+            ])->get();
+            $absensi = 'App\Presensi'::where([
+                ['siswa_id','=', $request->query('nisn')],
+                ['semester','=', $semester]
+            ])->first();
 
-        $pts = $this->nilaiPTS($request->query('nisn'), $semester, $rombel);
-        return view('home.dashboard', [
-           'page_title' => 'Cetak Rapor', 
-           'siswa' => $siswa, 
-           'nilais' => $nilais, 
-           'sekolah' => $sekolah, 
-           'tanggal_rapor' => $this->tanggalRapor($request), 
-           'sikaps' => $sikaps, 
-           'ekstras' => $ekstras,
-           'saran' => $saran,
-           'detil' => $detil,
-           'prestasis' => $prestasis,
-           'absensi' => $absensi,
-           'pts' => $pts
-        ]);
+            $pts = $this->nilaiPTS($request->query('nisn'), $semester, $rombel);
+            return view('home.dashboard', [
+            'page_title' => 'Cetak Rapor', 
+            'siswa' => $siswa, 
+            'nilais' => $nilais, 
+            'sekolah' => $sekolah, 
+            'tanggal_rapor' => $this->tanggalRapor($request), 
+            'sikaps' => $sikaps, 
+            'ekstras' => $ekstras,
+            'saran' => $saran,
+            'detil' => $detil,
+            'prestasis' => $prestasis,
+            'absensi' => $absensi,
+            'pts' => $pts
+            ]);
+        } catch(\Exception $e)
+        {
+            return back()->with(['status' => 'error', 'msg' => $e->getCode().':'.$e->getMessage()]);
+        }
     }
 
     /**

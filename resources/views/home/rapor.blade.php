@@ -5,11 +5,14 @@
     <div class="row">
       <div class="form-group col-sm-1">
         <label for="tapel">Tapel:</label>
-        <select name="tapel" id="tapel" class="form-control">
+        <select name="tapel" id="tapel-rapor" class="form-control">
           @php
             $Y = date('Y');
             $m = date('m');
             for($i = ($Y-3) ; $i < ($Y + 5) ; $i++) {
+              $sem = Session::get('semester');
+
+
               if($m < 7) {
                   $selected = ($i == ($Y -1)) ? 'selected' : '';
               } else {
@@ -24,7 +27,7 @@
       </div>
       <div class="col-sm-1 form-group">
         <label for="semester">Semester</label>
-        <select name="semester" id="semester" class="form-control">
+        <select name="semester" id="semester-rapor" class="form-control">
           @php
             $m = date('m');
             if($m > 6 ) {

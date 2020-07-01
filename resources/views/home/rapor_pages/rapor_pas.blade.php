@@ -59,9 +59,13 @@
                             </td>
                             <td class="text-left p-2" style="width:75%">
                                 Ananda {{ ucwords($siswa->nama_siswa, " ") }}
-                                @foreach($sikaps['k1'] as $k1)
-                                    {{ $k1 }},
-                                @endforeach
+                                @if($sikaps['k1'] != null)
+                                    @foreach($sikaps['k1'] as $k1)
+                                        {{ $k1 }},
+                                    @endforeach
+                                @else
+                                    -
+                                @endif
                             </td>
                         </tr>
                         <tr>
@@ -70,9 +74,13 @@
                             </td>
                             <td class="text-left p-2">
                                 Ananda {{ ucwords($siswa->nama_siswa, " ") }} 
-                                @foreach($sikaps['k2'] as $k2)
-                                    {{ $k2 }},
-                                @endforeach
+                                @if($sikaps['k2'] != null)
+                                    @foreach($sikaps['k2'] as $k2)
+                                        {{ $k2 }},
+                                    @endforeach
+                                @else
+                                    -
+                                @endif
                             </td>
                         </tr>
                     </tbody>
@@ -135,6 +143,7 @@
                                         @foreach ($nilai['k3']['max'] as $max)
                                             {{ $max }}
                                         @endforeach
+                                        ,
                                         @foreach ($nilai['k3']['min'] as $min)
                                             {{ $min }}
                                         @endforeach
@@ -166,6 +175,7 @@
                                         @foreach ($nilai['k4']['max'] as $max)
                                             {{ $max }}
                                         @endforeach
+                                        ,
                                         @foreach ($nilai['k4']['min'] as $min)
                                             {{ $min }}
                                         @endforeach

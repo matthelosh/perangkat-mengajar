@@ -185,10 +185,14 @@ trait TraitNilai
         ->groupBy('kd_id')
         ->get();
 
-        foreach($n1 as $n)
-        {
-            $kd = 'App\Kd'::where('kode_kd','=', $n->kd_id)->where('mapel_id','pabp')->first();
-            $datas['k1'][$n->kd_id] = $this->kata_op1($n->rt1).$kd->teks_kd;
+        if ($n1->count() > 0) {
+            foreach($n1 as $n)
+            {
+                $kd = 'App\Kd'::where('kode_kd','=', $n->kd_id)->where('mapel_id','pabp')->first();
+                $datas['k1'][$n->kd_id] = $this->kata_op1($n->rt1).$kd->teks_kd;
+            }
+        } else {
+            $datas['k1'] = null;
         }
 
         // dd($n1);
@@ -207,11 +211,15 @@ trait TraitNilai
         ])
         ->groupBy('kd_id')
         ->get();
-
-        foreach($n2 as $n)
-        {
-            $kd = 'App\Kd'::where('kode_kd','=', $n->kd_id)->where('mapel_id','pkn')->first();
-            $datas['k2'][$n->kd_id] = $this->kata_op2($n->rt2).$kd->teks_kd;
+        
+        if ($n2->count() > 0 ) {
+            foreach($n2 as $n)
+            {
+                $kd = 'App\Kd'::where('kode_kd','=', $n->kd_id)->where('mapel_id','pkn')->first();
+                $datas['k2'][$n->kd_id] = $this->kata_op2($n->rt2).$kd->teks_kd;
+            }
+        } else {
+            $datas['k2'] = null;
         }
 
         // dd($n1);

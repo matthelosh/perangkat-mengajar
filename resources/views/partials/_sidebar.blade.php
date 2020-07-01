@@ -1,14 +1,15 @@
 <aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
   <div class="mdc-drawer__header">
     <a href="index.html" class="brand-logo">
-      <span class="d-flex">
-        <img src="{{ asset('images/logo-1.svg') }}" alt="logo" style="width:38px;">
+      <span class="d-flex ">
+        <img  src="{{ asset('images/logo-1.svg') }}" alt="logo" style="width:38px;">
         <span style="margin-left: 10px;color:#ffffef;"><h5 style="margin:0;padding:0;">Perangkat<br/><small>Mengajar</small></h5> </span>
       </span>
     </a>
   </div>
   <div class="mdc-drawer__content">
     <div class="user-info">
+      <img style="width:100%; border-radius: 50%;box-sizing: border-box; border: 5px solid white;" src="{{ asset('images/faces/'.Auth::user()->nip.'.jpg') }}" alt="User" onerror="this.src='images/faces/face1.jpg'">
       <p class="name">
           {{Auth::user()->fullname}}
       </p>

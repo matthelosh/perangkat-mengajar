@@ -37,24 +37,32 @@ table#table-biodata tr dt{
 
 
 .page_rapor .content_cover {
-    margin: 25% auto 20px auto;
+    margin: 10% auto 20px auto;
     width: 60%;
+    text-align:center;
+}
+
+.page_rapor .content_cover .teks-bawah {
+    position: absolute;
+    left:0;
+    right: 0;
+    bottom: 50px;
 }
 .page_rapor .judul {
     margin-top: 20px;
 }
 .page_rapor .nama_siswa {
-    margin-top: 150px;
+    margin-top: 100px;
    
 }
 .page_rapor .nama_siswa p {
     font-size: 14pt;
 }
-.page_rapor .nama_siswa p.nama,p.nis {
+.page_rapor .nama_siswa p.nama, p.nis {
     padding: 20px;
     border: 1px solid #000;
 }
-.page_rapor .teks-bawah {
+.page_rapor .content_biodata .teks-bawah {
     margin-top: 200px;
 }
 .page_rapor h2, h4 {
@@ -72,14 +80,16 @@ table#table-biodata tr dt{
     display: block;
     transform: translateY(5px);
  }
- #rapor_pts .kop h4,h2,p {
+ #rapor_pts .kop h4,
+ #rapor_pts .kop h2,
+ #rapor_pts .kop p {
      margin:0!important;
  }
 
  @media print {
-    /* @page {
+    @page {
         size: 8.27in 11.69in;
-    } */
+    }
 
     html,body{
         background: #fff;
@@ -118,5 +128,9 @@ table#table-biodata tr dt{
 
     .table-ttd-rapor tr td {
         font-size: 12pt;
+    }
+    .page_rapor .content_cover .teks-bawah {
+        position: relative;
+        margin-bottom: 100px;
     }
  }

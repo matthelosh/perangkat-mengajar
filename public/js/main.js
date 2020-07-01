@@ -982,7 +982,7 @@ $(document).ready(function(){
         serverSide: true,
         ajax: {
             url: '/siswa?req=dt&rombel='+sessionStorage.getItem('rombel'),
-            type: 'post',
+            type: 'post', 
             headers: headers
         },
         columns: [
@@ -994,8 +994,8 @@ $(document).ready(function(){
             {"data": "nama_siswa", "className": "text-left"},
             {"data": null, render: (data) => {
                 // 2019/2020
-                var th = $('#tapel').val()
-                var sm = $('#semester').val()
+                var th = $('#tapel-rapor').val()
+                var sm = $('#semester-rapor').val()
                 var semester = th.substr(2,2)+th.substr(7,2)+sm
                 return `
                     <a href="" class="btn btn-primary btn-outlined btnDetilSiswa" title="Detil Siswa"><i class="mdi mdi-magnify"></i></a>
@@ -1005,6 +1005,9 @@ $(document).ready(function(){
         ]
     });
 
+    $(document).on('change', '#semester-rapor', function(e) {
+        tsiswarapor.ajax.reload()
+    })
     
     $('.selSiswa').on('select2:select', function(e){
         

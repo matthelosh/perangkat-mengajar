@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 use Illuminate\Support\Facades\DB;
+use Exception;
 date_default_timezone_set("Asia/Jakarta");
 
 use Illuminate\Http\Request;
@@ -13,14 +14,21 @@ trait Tanggal
 {
     public function tanggalRapor(Request $request)
     {
+        $tanggal_rapor = '';
         $bulans = [1 => 'Januari', 'Pebruari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'Nopember', 'Desember'];
         $tanggal = DB::table('setting-raport')
                         ->select('tanggal_rapor')
-                        ->where('semester', $request->session()->get('semester'))
+                        ->where('semester', $request->query('semester'))
                         ->first();
-        $tgl = explode('-', $tanggal->tanggal_rapor);
-        $bulan = $bulans[(int) $tgl[1]];
-        return $tgl[2].' '.$bulan.' '.$tgl[0];
+        $tgl = ($tanggal) ? explode('-', $tanggal->tanggal_rapor) : null;
+        $bulan = ($tgl != null) ? $bulans[(int) $tgl[1]] : null;
+        if( $tgl != null) {
+            return $tgl[2].' '.$bulan.' '.$tgl[0];
+        } else {
+            throw new Exception("Tanggal Rapor Semester ".$request->session()->get('semester')." belum disetting. Mohon hubungi Administrator.", 1);
+            
+        }
+        
     }
     public function tanggal($tanggal)
     {
